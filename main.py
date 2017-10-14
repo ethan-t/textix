@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 
 import os
+from autopep8 import fix_code
+from yapf.yapflib.yapf_api import FormatCode
+from subprocess import call
 import gi
 gi.require_version('Gtk', '3.0')
 gi.require_version('GtkSource', '3.0')
@@ -45,36 +48,42 @@ class Editor(Gtk.Window):
         Keybinder.bind("<Ctrl>S", self.save)
 
         button_open = Gtk.ToolButton()
-        button_open.set_icon_name("document-open")
+        button_open.set_icon_name("document-open-symbolic")
         toolbar.insert(button_open, 0)
 
         button_save = Gtk.ToolButton()
-        button_save.set_icon_name("document-save")
+        button_save.set_icon_name("document-save-symbolic")
         toolbar.insert(button_save, 1)
 
         button_save_as = Gtk.ToolButton()
-        button_save_as.set_icon_name("document-save-as")
+        button_save_as.set_icon_name("document-save-as-symbolic")
         toolbar.insert(button_save_as, 2)
 
         toolbar.insert(Gtk.SeparatorToolItem(), 3)
 
         button_redo = Gtk.ToolButton()
-        button_redo.set_icon_name("edit-redo")
+        button_redo.set_icon_name("edit-redo-symbolic")
         toolbar.insert(button_redo, 4)
 
         button_undo = Gtk.ToolButton()
-        button_undo.set_icon_name("edit-undo")
+        button_undo.set_icon_name("edit-undo-symbolic")
         toolbar.insert(button_undo, 5)
 
         toolbar.insert(Gtk.SeparatorToolItem(), 6)
 
         button_search = Gtk.ToolButton()
-        button_search.set_icon_name("edit-find")
+        button_search.set_icon_name("edit-find-symbolic")
         toolbar.insert(button_search, 7)
 
         button_clear = Gtk.ToolButton()
-        button_clear.set_icon_name("edit-clear-all")
+        button_clear.set_icon_name("edit-clear-all-symbolic")
         toolbar.insert(button_clear, 8)
+
+        toolbar.insert(Gtk.SeparatorToolItem(), 9)
+
+        button_format = Gtk.ToolButton()
+        button_format.set_icon_name("edit-select-all-symbolic")
+        toolbar.insert(button_format, 10)
 
         self.statusbar = Gtk.Statusbar()
         self.context = self.statusbar.get_context_id("lc")
@@ -87,6 +96,7 @@ class Editor(Gtk.Window):
         button_undo.connect("clicked", self.sourcebuffer.undo)
         button_search.connect("clicked", self.search)
         button_clear.connect("clicked", self.clear)
+        button_format.connect("clicked", self.format)
 
     def create_sourceview(self):
         scrolledwindow = Gtk.ScrolledWindow()
@@ -199,6 +209,14 @@ class Editor(Gtk.Window):
             match_start, match_end = match
             self.sourcebuffer.apply_tag(self.tag_found, match_start, match_end)
             self.search_and_mark(text, match_end)
+
+    def format(self, widget):
+        old_code = self.sourcebuffer.get_text(
+            self.sourcebuffer.get_start_iter(), self.sourcebuffer.get_end_iter(), True)
+        new_code = fix_code(old_code)
+        newest_code = FormatCode(new_code)[0]
+        print(newest_code)
+        self.sourcebuffer.set_text(newest_code)
 
 
 win = Editor()
