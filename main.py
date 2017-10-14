@@ -2,7 +2,6 @@
 
 import os
 from autopep8 import fix_code
-from yapf.yapflib.yapf_api import FormatCode
 from subprocess import call
 import gi
 gi.require_version('Gtk', '3.0')
