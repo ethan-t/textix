@@ -97,6 +97,10 @@ class Editor(Gtk.Window):
         button_clear.connect("clicked", self.clear)
         button_format.connect("clicked", self.format)
 
+    def create_sourcemap(self):
+        sourcemap = Gtk.SourceMap()
+        
+
     def create_sourceview(self):
         scrolledwindow = Gtk.ScrolledWindow()
         scrolledwindow.set_hexpand(True)
@@ -213,9 +217,7 @@ class Editor(Gtk.Window):
         old_code = self.sourcebuffer.get_text(
             self.sourcebuffer.get_start_iter(), self.sourcebuffer.get_end_iter(), True)
         new_code = fix_code(old_code)
-        newest_code = FormatCode(new_code)[0]
-        print(newest_code)
-        self.sourcebuffer.set_text(newest_code)
+        self.sourcebuffer.set_text(new_code)
 
 
 win = Editor()
