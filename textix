@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Import all necessary modules 
+# Import all necessary modules
 import os
 from autopep8 import fix_code
 from subprocess import call
@@ -52,16 +52,19 @@ class Editor(Gtk.Window):
         # Open button
         button_open = Gtk.ToolButton()
         button_open.set_icon_name("document-open-symbolic")
+        button_open.set_tooltip_text("Open")
         toolbar.insert(button_open, 0)
 
         # Save button
         button_save = Gtk.ToolButton()
         button_save.set_icon_name("document-save-symbolic")
+        button_save.set_tooltip_text("Save")
         toolbar.insert(button_save, 1)
 
         # Save as button
         button_save_as = Gtk.ToolButton()
         button_save_as.set_icon_name("document-save-as-symbolic")
+        button_save_as.set_tooltip_text("Save As")
         toolbar.insert(button_save_as, 2)
 
         # Seperation
@@ -70,11 +73,13 @@ class Editor(Gtk.Window):
         # Redo button
         button_redo = Gtk.ToolButton()
         button_redo.set_icon_name("edit-redo-symbolic")
+        button_redo.set_tooltip_text("Redo")
         toolbar.insert(button_redo, 4)
 
         # Undo button
         button_undo = Gtk.ToolButton()
         button_undo.set_icon_name("edit-undo-symbolic")
+        button_undo.set_tooltip_text("Undo")
         toolbar.insert(button_undo, 5)
 
         # Seperator
@@ -83,11 +88,13 @@ class Editor(Gtk.Window):
         # Search button
         button_search = Gtk.ToolButton()
         button_search.set_icon_name("edit-find-symbolic")
+        button_search.set_tooltip_text("Search")
         toolbar.insert(button_search, 7)
 
         # Clear search results button
         button_clear = Gtk.ToolButton()
         button_clear.set_icon_name("edit-clear-all-symbolic")
+        button_clear.set_tooltip_text("Clear Results")
         toolbar.insert(button_clear, 8)
 
         # Seperator
@@ -96,6 +103,7 @@ class Editor(Gtk.Window):
         # PEP8 button
         button_format = Gtk.ToolButton()
         button_format.set_icon_name("edit-select-all-symbolic")
+        button_format.set_tooltip_text("Format")
         toolbar.insert(button_format, 10)
 
         self.statusbar = Gtk.Statusbar()
@@ -183,8 +191,6 @@ class Editor(Gtk.Window):
         dialog.add_filter(filter_any)
         filter_python = Gtk.FileFilter()
         filter_python.set_name("Python")
-        filter_python.add_pattern("*.py")
-        filter_python.add_pattern("*.py3")
         dialog.add_filter(filter_python)
 
     def save_as(self, widget):
